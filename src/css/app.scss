@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+.font-noto-serif {
+  font-family: 'Noto Serif', serif;
+}
+
+.font-open-sans {
+  font-family: 'Open Sans', sans-serif;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.title {
+  font-family: 'Noto Serif', serif;
+}
+
+.header {
+  font-family: 'Noto Serif', serif;
+  font-weight: bold;
+}
+
+.login-card {
+  min-width: 500px;
+}
+
+.login-header {
+  background-color: transparent;
+  text-align: center;
+  padding-top: 50px;
+  font-size: map-get($h5, 'size')
+}
+
+
+// @media (min-width: $breakpoint-md-min) {
+//   .credit-due {
+//     order: 2;
+//   }
+// }
