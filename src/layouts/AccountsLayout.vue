@@ -34,20 +34,14 @@
       v-model="leftDrawerOpen"
       show-if-above
     >
-      <q-img class="absolute-top drawer-header" style="height: 75px">
-        <div class="bg-transparent">
-          <div class="font-noto-serif">Project PHinancials</div>
-          <div>rkscapul.com/project-phinancials</div>
-        </div>
-      </q-img>
       <q-scroll-area
-        style="height: calc(100% - 75px); margin-top: 75px;"
+        style="height: 100%"
       >
         <q-list>
           <q-item
             clickable v-ripple
             class="bg-accent"
-            href="/dashboard">
+            to="/dashboard">
             <q-item-section avatar>
               <q-icon name="arrow_back" color="white" />
             </q-item-section>
@@ -55,6 +49,48 @@
               class="text-weight-bold text-uppercase"
             >Back to dashboard</q-item-section>
           </q-item>
+
+          <template v-if="deposits.loading">
+            <q-item>
+              <q-item-section avatar>
+                <q-spinner-pie color="accent" size="2em" />
+              </q-item-section>
+              <q-item-section class="text-uppercase text-weight-bold">
+                Loading deposits
+              </q-item-section>
+            </q-item>
+          </template>
+
+          <template v-if="!deposits.success && !deposits.loading">
+            <q-item>
+              <q-item-section avatar>
+                <q-icon name="error" color="negative" />
+              </q-item-section>
+              <q-item-section class="text-uppercase text-weight-bold">
+                Failed to load accounts
+              </q-item-section>
+              <q-item-section side>
+                <q-btn round flat icon="refresh" @click="getAllDeposits()" />
+              </q-item-section>
+            </q-item>
+          </template>
+
+          <template v-if="deposits.success && !deposits.loading">
+            <template
+              v-for="group in deposits.data"
+              :key="group.key">
+              <q-expansion-item
+                group="deposit-accounts"
+                :label="group.group"
+              >
+                <deposit-account-component
+                  v-for="account in group.accounts"
+                  :key="account.id"
+                  :data="account"
+                  @clicked="accountsState.setAccountId(account.accountId)" />
+              </q-expansion-item>
+            </template>
+          </template>
 
         </q-list>
       </q-scroll-area>
@@ -78,14 +114,16 @@ import { defineComponent, ref } from 'vue';
 
 import { deposits } from '../endpoints/deposits.js';
 
-import { toCamelCase } from '../helpers/text-formatting.js';
+import { toCamelCase, applyCurrency } from '../helpers/text-formatting.js';
 
-// import DepositAccountComponent from '../components/list-item/DepositAccountListItem.vue';
+import { accountsStore } from '../stores/accounts.js';
+
+import DepositAccountComponent from '../components/list-item/DepositAccountListItem.vue';
 
 export default defineComponent({
   name: 'MainLayout',
   components: {
-    // DepositAccountComponent,
+    DepositAccountComponent,
   },
   data() {
     return {
@@ -97,10 +135,12 @@ export default defineComponent({
     };
   },
   setup() {
+    const accountsState = accountsStore();
     const leftDrawerOpen = ref(false);
     const hideBalance = ref(false);
 
     return {
+      accountsState,
       leftDrawerOpen,
       hideBalance,
       toggleLeftDrawer() {
@@ -123,6 +163,7 @@ export default defineComponent({
       if (response.success) {
         response.data.forEach((account) => {
           const {
+            accountId,
             balance,
             bankAlias,
             group,
@@ -131,7 +172,11 @@ export default defineComponent({
           } = account;
           const groupName = toCamelCase(group);
           const data = {
-            id, balance, bankAlias, name,
+            accountId,
+            id,
+            balance: applyCurrency(balance),
+            bankAlias,
+            name,
           };
 
           if (!tempGroup[groupName]) {
@@ -151,8 +196,6 @@ export default defineComponent({
 
       this.deposits.success = response.success;
       this.deposits.loading = false;
-
-      console.log(this.deposits);
     },
   },
 });

@@ -44,7 +44,7 @@
         style="height: calc(100% - 75px); margin-top: 75px;"
       >
         <q-list>
-          <q-item clickable v-ripple href="/deposit-accounts">
+          <q-item clickable v-ripple to="/deposit-accounts">
             <q-item-section avatar>
               <q-avatar round color="secondary" text-color="white" icon="fa-solid fa-money-bill" />
             </q-item-section>
@@ -88,26 +88,8 @@
 <script>
 import { defineComponent, ref } from 'vue';
 
-import { deposits } from '../endpoints/deposits.js';
-
-import { toCamelCase } from '../helpers/text-formatting.js';
-
-// import DepositAccountComponent from '../components/list-item/DepositAccountListItem.vue';
-
 export default defineComponent({
   name: 'MainLayout',
-  components: {
-    // DepositAccountComponent,
-  },
-  data() {
-    return {
-      deposits: {
-        data: [],
-        loading: false,
-        success: false,
-      },
-    };
-  },
   setup() {
     const leftDrawerOpen = ref(false);
     const hideBalance = ref(false);
@@ -119,53 +101,6 @@ export default defineComponent({
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
     };
-  },
-  created() {
-    this.getAllDeposits();
-  },
-  methods: {
-    async getAllDeposits() {
-      const tempGroup = {};
-      const tempGroupName = {};
-
-      this.deposits.loading = true;
-
-      const response = await deposits.getDepositsSummary();
-
-      if (response.success) {
-        response.data.forEach((account) => {
-          const {
-            balance,
-            bankAlias,
-            group,
-            id,
-            name,
-          } = account;
-          const groupName = toCamelCase(group);
-          const data = {
-            id, balance, bankAlias, name,
-          };
-
-          if (!tempGroup[groupName]) {
-            tempGroup[groupName] = [];
-            tempGroupName[groupName] = group;
-          }
-
-          tempGroup[groupName].push(data);
-        });
-
-        this.deposits.data = Object.keys(tempGroup).map((key) => ({
-          key,
-          group: tempGroupName[key],
-          accounts: tempGroup[key],
-        }));
-      }
-
-      this.deposits.success = response.success;
-      this.deposits.loading = false;
-
-      console.log(this.deposits);
-    },
   },
 });
 </script>
