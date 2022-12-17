@@ -10,8 +10,6 @@ app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);
 
-    console.log(origin);
-
     if (corsWhitelist.indexOf(origin) === -1) {
       const msg = 'The CORS policy for this site does not '
         + 'allow access from the specified Origin.';
@@ -27,9 +25,9 @@ const wait = (value) => new Promise((resolve) => {
   setTimeout(() => resolve(true), value);
 });
 
-glob('src/mocks/*.mjs', (err, mocks) => {
+glob('src/mocks/**/*.mjs', (err, mocks) => {
   mocks.forEach(async (file) => {
-    const projectRoot = __dirname.split('mock-service')[0];
+    const projectRoot = __dirname.split('src/mocks')[0];
     const fileData = await import(`${projectRoot}${file}`);
     const data = fileData.default;
 

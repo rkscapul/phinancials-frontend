@@ -6,7 +6,7 @@
   "author": "ryle <rkscapul@gmail.com>",
   "private": true,
   "scripts": {
-    "mock": "node mock-service/",
+    "mock": "node src/mocks/service.js",
     "sl": "quasar dev",
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
