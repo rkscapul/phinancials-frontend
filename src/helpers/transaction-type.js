@@ -35,3 +35,11 @@ export const transactionTableColumnSmall = [
 export const transactionTableColumnLarge = [
   'expand', 'description', 'name', 'amount',
 ];
+
+export const transactionTables = {
+  columns: transactionTableColumns,
+  screen: {
+    small: transactionTableColumnSmall,
+    large: transactionTableColumnLarge,
+  },
+};
