@@ -1,5 +1,5 @@
 <template>
-  <q-item clickable v-ripple>
+  <q-item clickable v-ripple @click="$emit('clicked')">
     <q-item-section>
       <q-item-label caption>{{data.bankAlias}}</q-item-label>
       <q-item-label>{{data.name}}</q-item-label>
