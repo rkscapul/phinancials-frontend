@@ -1,5 +1,5 @@
 <template>
-  <q-card class="header-card">
+  <q-card class="header-card" :style="cssVars">
     <q-card-section horizontal>
       <q-card-section>
         <div>{{bankName}}</div>
@@ -30,6 +30,12 @@
   </q-card>
 </template>
 
+<style scoped>
+  .header-card {
+    background: linear-gradient(45deg, var(--bg-color));
+  }
+</style>
+
 <script>
 import { defineComponent } from 'vue';
 import { applyCurrency } from '../../helpers/text-formatting.js';
@@ -45,6 +51,17 @@ export default defineComponent({
     },
     bankName: {
       type: String,
+    },
+    color: {
+      type: Array,
+    },
+  },
+  computed: {
+    cssVars() {
+      console.log(this.color);
+      return {
+        '--bg-color': this.color.toString(),
+      };
     },
   },
   data() {
