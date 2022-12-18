@@ -89,38 +89,6 @@
             </q-card-section>
           </template>
 
-          <!-- <q-list>
-            <q-expansion-item v-for="record in transactions.data" :key="record.id">
-              <template v-slot:header>
-                <q-item-section avatar>
-                  <q-avatar icon="bluetooth" color="secondary" text-color="white" />
-                </q-item-section>
-
-                <q-item-section>
-                  <div>
-                    <q-badge color="accent" class="q-mr-sm">{{record.type}}</q-badge>
-                    {{record.description}}
-                  </div>
-                </q-item-section>
-
-                <q-item-section side>
-                  <div
-                    :class="{
-                      'text-negative': record.isWithdrawal,
-                      'text-positive': !record.isWithdrawal,
-                    }">
-                    {{record.amount}}
-                  </div>
-                </q-item-section>
-              </template>
-
-              <q-card>
-                <q-card-section class="q-pl-xl">
-                  TEst
-                </q-card-section>
-              </q-card>
-            </q-expansion-item>
-          </q-list> -->
           <q-table
             v-if="!transactions.loading && transactions.success"
             :rows="transactions.data"
@@ -278,8 +246,6 @@ export default defineComponent({
 
       this.statistics.success = response.success;
       this.statistics.loading = false;
-
-      console.log(this.statistics);
     },
   },
 });
