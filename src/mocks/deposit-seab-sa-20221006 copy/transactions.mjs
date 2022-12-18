@@ -2,7 +2,7 @@ export default {
   url: '/api/deposits/SEAB-SA-20221006/transactions',
   type: 'GET',
   status: 200,
-  wait: 2500,
+  wait: 3000,
   response: [
     {
       id: 5,

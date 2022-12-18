@@ -26,7 +26,7 @@ export default {
       bankAlias: 'RCBC',
       name: 'RCBC OneAccount',
       group: 'Emergency Fund',
-      balance: 100000,
+      balance: 200000,
     },
   ],
 };

@@ -10,6 +10,7 @@ export default {
       id: 4,
       name: 'Seabank Philippines, Inc. (A Rural Bank)',
       alias: 'SeaBank',
+      colors: ['#fb8c00', '#ff6a36', '#fd4a57', '#ea3474', '#cb318c', '#a03a9e', '#6943a5', '#0d47a1'],
     },
     name: 'Seabank Savings',
     group: 'Savings Account',
